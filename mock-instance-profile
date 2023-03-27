@@ -39,4 +39,4 @@ fi
 [[ -d ${HOME}/.aws/ ]] || mkdir -p "${HOME}"/.aws/
 python3 "${CURRENT_DIR}"/generate_mock_config.py --roleArn "${role}"
 
-ec2-metadata-mock -p 80 -n 169.254.169.254 -c "${HOME}"/.aws/mock_config.json
+ec2-metadata-mock -p 80 -n 0.0.0.0 -c "${HOME}"/.aws/mock_config.json

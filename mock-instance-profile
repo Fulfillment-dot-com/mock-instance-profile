@@ -19,24 +19,24 @@ if ! command -v ec2-metadata-mock > /dev/null 2>&1; then
 fi
 
 # check if we are already root
-needSudo=""
-if [[ $(id -u) != 0 ]]; then
-  needSudo="sudo"
-fi
+#needSudo=""
+#if [[ $(id -u) != 0 ]]; then
+#  needSudo="sudo"
+#fi
 
 # The virtual interface can just be created over and over
 # without any issues so we don't need to check if it already exists
-if [[ $(uname -s) == "Linux" ]]; then
-  "${needSudo}" ifconfig lo:0 169.254.169.254 netmask 255.255.255.255
-elif [[ $(uname -s) == "Darwin" ]]; then
-  "${needSudo}" ifconfig lo0 alias 169.254.169.254
-else
-  echo "Could not determine OS... Exiting"
-  exit 1
-fi
+#if [[ $(uname -s) == "Linux" ]]; then
+#  "${needSudo}" ifconfig lo:0 169.254.169.254 netmask 255.255.255.255
+#elif [[ $(uname -s) == "Darwin" ]]; then
+#  "${needSudo}" ifconfig lo0 alias 169.254.169.254
+#else
+#  echo "Could not determine OS... Exiting"
+#  exit 1
+#fi
 
 # generate config
 [[ -d ${HOME}/.aws/ ]] || mkdir -p "${HOME}"/.aws/
 python3 "${CURRENT_DIR}"/generate_mock_config.py --roleArn "${role}"
 
-"${needSudo}" ec2-metadata-mock -p 80 -n 169.254.169.254 -c "${HOME}"/.aws/mock_config.json
+ec2-metadata-mock -p 80 -n 169.254.169.254 -c "${HOME}"/.aws/mock_config.json

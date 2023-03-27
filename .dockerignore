@@ -1,0 +1,5 @@
+.git-hooks
+.idea
+
+.pre-commit-config.yaml
+.gitignore
